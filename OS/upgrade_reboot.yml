@@ -29,8 +29,8 @@
       when: ansible_os_family == "Debian"
 
     # Reboot after upgrade
-    - name: Reboot host
-      reboot:
-        connect_timeout: "{{ reboot_connect_timeout }}"
-        post_reboot_delay: "{{ reboot_post_reboot_delay }}"
-        reboot_timeout: "{{ reboot_timeout }}"
+    #- name: Reboot host
+    #  reboot:
+    #    connect_timeout: "{{ reboot_connect_timeout }}"
+    #    post_reboot_delay: "{{ reboot_post_reboot_delay }}"
+    #    reboot_timeout: "{{ reboot_timeout }}"
