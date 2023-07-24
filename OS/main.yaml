@@ -2,20 +2,24 @@
 - name: Autoinstall packaged Fornet Solusindo
   hosts: all
   tasks:
+  - name: install EPEL Release
+    dnf:
+      name: yum-utils,epel-release,epel-next-release
+      state: latest
   - name: snmpd latest version installation
     dnf:
       name: net-snmp,net-snmp-utils
       state: latest
   - name: git latest version installation
     dnf:
-      name: git,wget 
+      name: git,wget,htop
       state: latest 
-  - name: Enable service SNMP to start on boot up
-    service:
-      name: snmpd
-      state: started
   handlers:
   - name: Restart apache service
     service:
       name: snmpd
       state: restarted
+  - name: Enable service SNMP to start on boot up
+    service:
+      name: snmpd
+      state: started
