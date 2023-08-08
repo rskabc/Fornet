@@ -1,5 +1,5 @@
 ---
-- name: install Docker
+- name: install Server Fornet Solusindo
   hosts: all
   become: true
   tasks:
@@ -29,19 +29,20 @@
           - containerd.io
         state: latest
         update_cache: true
-    - name: snmpd latest version installation
-      dnf:
-       name: net-snmp,net-snmp-utils
-      state: latest
-    - name: git latest version installation
-      dnf:
-       name: git,wget,htop
-      state: latest 
-
     - name: install EPEL Release
       dnf:
        name: yum-utils,epel-release,epel-next-release
-      state: latest 
+       state: latest 
+    - name: snmpd latest version installation
+      dnf:
+       name: net-snmp,net-snmp-utils
+       state: latest
+    - name: git latest version installation
+      dnf:
+       name: git,wget,htop
+       state: latest 
+
+    
     - name: Start Docker
       ansible.builtin.service:
         name: "docker"
