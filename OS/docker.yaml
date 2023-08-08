@@ -1,0 +1,57 @@
+---
+- name: install Docker
+  hosts: all
+  become: true
+  tasks:
+    - name: set mydistribution
+      ansible.builtin.set_fact:
+        mydistribution: "{{ 'rhel' if (ansible_distribution == 'Red Hat Enterprise Linux') else (ansible_distribution | lower) }}"
+
+    - name: Add signing key
+      ansible.builtin.rpm_key:
+        key: "https://download.docker.com/linux/{{ mydistribution }}/gpg"
+        state: present
+
+    - name: Add repository into repo.d list
+      ansible.builtin.yum_repository:
+        name: docker
+        description: docker repository
+        baseurl: "https://download.docker.com/linux/{{ mydistribution }}/$releasever/$basearch/stable"
+        enabled: true
+        gpgcheck: true
+        gpgkey: "https://download.docker.com/linux/{{ mydistribution }}/gpg"
+
+    - name: Install Docker
+      ansible.builtin.yum:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+        state: latest
+        update_cache: true
+    - name: snmpd latest version installation
+      dnf:
+       name: net-snmp,net-snmp-utils
+      state: latest
+    - name: git latest version installation
+      dnf:
+       name: git,wget,htop
+      state: latest 
+
+    - name: install EPEL Release
+      dnf:
+       name: yum-utils,epel-release,epel-next-release
+      state: latest 
+    - name: Start Docker
+      ansible.builtin.service:
+        name: "docker"
+        enabled: true
+        state: started
+    - name: Restart snmpd service
+      service:
+       name: snmpd
+       state: restarted
+    - name: Enable service SNMP to start on boot up
+      service:
+       name: snmpd
+       state: started
