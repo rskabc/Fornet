@@ -4,15 +4,23 @@
   tasks:
   - name: install EPEL Release
     dnf:
-      name: yum-utils,epel-release,epel-next-release
+      name: epel-release
       state: latest
-  - name: snmpd latest version installation
+  - name: SNMPD latest version installation
     dnf:
       name: net-snmp,net-snmp-utils
       state: latest
-  - name: git latest version installation
+  - name: GIT latest version installation
     dnf:
-      name: git,wget,htop
+      name: git
+      state: latest 
+  - name: WGET latest version installation
+    dnf:
+      name: wget
+      state: latest 
+  - name: HTOP latest version installation
+    dnf:
+      name: htop
       state: latest 
   handlers:
   - name: Restart apache service
