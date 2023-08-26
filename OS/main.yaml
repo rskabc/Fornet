@@ -4,7 +4,7 @@
 dnf update -y
 
 # Install epel-release, net-snmp, net-snmp-utils, git, wget, curl, htop
-dnf install -y epel-release net-snmp net-snmp-utils git wget curl htop
+dnf install -y epel-release net-snmp net-snmp-utils git wget curl htop net-tools
 
 echo "Packages installed successfully."
 
