@@ -1,33 +1,23 @@
----
-- name: Autoinstall packaged Fornet Solusindo
-  hosts: all
-  tasks:
-  - name: install EPEL Release
-    dnf:
-      name: epel-release
-      state: latest
-  - name: SNMPD latest version installation
-    dnf:
-      name: net-snmp,net-snmp-utils
-      state: latest
-  - name: GIT latest version installation
-    dnf:
-      name: git
-      state: latest 
-  - name: WGET latest version installation
-    dnf:
-      name: wget
-      state: latest 
-  - name: HTOP latest version installation
-    dnf:
-      name: htop
-      state: latest 
-  handlers:
-  - name: Restart apache service
-    service:
-      name: snmpd
-      state: restarted
-  - name: Enable service SNMP to start on boot up
-    service:
-      name: snmpd
-      state: started
+#!/bin/bash
+
+# Update repository information
+dnf update -y
+
+# Install epel-release, net-snmp, net-snmp-utils, git, wget, curl, htop
+dnf install -y epel-release net-snmp net-snmp-utils git wget curl htop
+
+echo "Packages installed successfully."
+
+# URL of the file to download
+url="https://raw.githubusercontent.com/rskabc/template/main/fornet/snmpd.conf"
+
+# Destination folder
+destination_folder="/etc/snmpd/"
+
+# Create the destination folder if it doesn't exist
+mkdir -p "$destination_folder"
+
+# Download the file using curl
+curl -o "$destination_folder/snmpd.conf" "$url"
+
+echo "File downloaded and saved to $destination_folder/snmpd.conf."
